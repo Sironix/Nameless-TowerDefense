@@ -2,19 +2,44 @@ extends PathFollow2D
 
 signal base_damage(damage)
 signal enemy_deleted(type_of_deletion, base_enemy_equivalent)
+signal award_money(amount)
+
+
 
 var unit_name="null"
-var speed = 50
-var hp = 1
+var original_tier
+var current_tier
+var hp = 25
 var base_damage = 1
-var spawn
+var speed = 50
+var base_scale
+var money
+var color
+var spawn 
+
 var base_enemy_equivalent = 0
 var id
 var alive = true
 
 onready var impact_area = get_node("Impact")
 var projectile_impact = preload("res://Scenes/SupportScenes/ProjectileImpact.tscn")
-var instant_impact = preload("res://Scenes/SupportScenes/InstantImpact.tscn")
+var instant_impact    = preload("res://Scenes/SupportScenes/InstantImpact.tscn")
+
+func setup(tier):
+	original_tier = tier
+	current_tier = tier
+	update_values()
+
+func update_values():
+	unit_name 	= GameData.enemy_data[current_tier]["name"]
+	hp 			= GameData.enemy_data[current_tier]["health"]
+	base_damage = GameData.enemy_data[current_tier]["damage"]
+	speed 		= GameData.enemy_data[current_tier]["speed"]
+	base_scale 	= GameData.enemy_data[current_tier]["scale"]
+	money 		= GameData.enemy_data[current_tier]["money"]
+	color 		= GameData.enemy_data[current_tier]["color"]
+	get_node("Sprite").self_modulate = Color(color)
+
 
 func _physics_process(delta):
 	if unit_offset == 1.0:
@@ -28,6 +53,7 @@ func move(delta):
 
 func on_hit(damage):
 	impact()
+	emit_signal("award_money",damage)
 	hp -= damage
 	if hp <= 0:
 		if alive:
@@ -48,11 +74,14 @@ func impact():
 func on_destroy():
 	alive = false
 	emit_signal("enemy_deleted","killed",base_enemy_equivalent, unit_name, id)
-	get_node("KinematicBody2D").queue_free()
-	yield(get_tree().create_timer(0.15),"timeout")
-	self.queue_free()
-	if not spawn == null:
-		spawn_children()
+	if current_tier + hp - 1 > 0:
+		current_tier = current_tier + hp - 1
+		update_values()
+		alive = true
+	else:
+		get_node("KinematicBody2D").queue_free()
+		yield(get_tree().create_timer(0.15),"timeout")
+		self.queue_free()
 
 func spawn_children():
 	var new_children = load('res://Scenes/Enemies/' + spawn + '.tscn').instance()
@@ -74,9 +103,3 @@ func spawn_children():
 #			if tier -1 +health >= 1:
 #				spawn(tier -1 +health)
 
-
-func _ready():
-	unit_name = "BlueTank"
-	hp = 10
-	base_damage = 5
-	base_enemy_equivalent = 1 

@@ -64,6 +64,9 @@ func spawn_enemies(wave_data):
 		var new_enemy = load("res://Scenes/Enemies/" + i[0] + ".tscn").instance()
 		new_enemy.connect("base_damage", self, "on_base_damage")
 		new_enemy.connect("enemy_deleted", self, "on_enemy_deleted")
+		if i[0] == "TieredEnemy":
+			new_enemy.setup(i[2])
+			new_enemy.connect("award_money", self, "on_award_money")
 		map_node.get_node("Path").add_child(new_enemy, true)
 		new_enemy.id = id
 		id +=1
@@ -146,3 +149,7 @@ func on_enemy_deleted(type_of_deletion, base_enemy_equivalent,unit_name , id):
 	if enemies_in_wave == 0:
 		yield(get_tree().create_timer(1.2),"timeout") 
 		wave_finished()
+
+func on_award_money(amount):
+	base_money += amount
+	get_node("UI").update_money_bar(base_money)
