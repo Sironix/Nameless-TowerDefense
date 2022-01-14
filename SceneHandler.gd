@@ -21,7 +21,7 @@ func unload_game(result):
 	load_main_menu()
 
 func load_main_menu():
+# warning-ignore:return_value_discarded
 	get_node("MainMenu/MarginContainer/VBoxContainer/NewGame").connect("pressed", self, "on_newgame_pressed")
+# warning-ignore:return_value_discarded
 	get_node("MainMenu/MarginContainer/VBoxContainer/Quit").connect("pressed", self, "on_quit_pressed")
-	
-	OS.set_window_maximized(true)

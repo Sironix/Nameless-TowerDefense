@@ -48,31 +48,51 @@ func _unhandled_input(event):
 #=====================================
 
 func start_next_wave():
+	current_wave +=1
 	var wave_data = retrieve_wave_data()
 	yield(get_tree().create_timer(0.2),"timeout") ## time between waves
 	spawn_enemies(wave_data)
 
 func retrieve_wave_data():
 	var wave_data = GameData.wave_data[current_wave]
-	enemies_in_wave = wave_data.size()
-	print (enemies_in_wave)
+	enemies_in_wave = 0
+	for i in wave_data:
+		var enemies
+		if i.size() >= 4: enemies= i[3]
+		else: enemies = 1
+		enemies_in_wave += enemies
 	return wave_data
 
 func spawn_enemies(wave_data):
 	var id = 0
 	for i in wave_data:
-		var new_enemy = load("res://Scenes/Enemies/" + i[0] + ".tscn").instance()
-		new_enemy.connect("base_damage", self, "on_base_damage")
-		new_enemy.connect("enemy_deleted", self, "on_enemy_deleted")
-		map_node.get_node("Path").add_child(new_enemy, true)
-		new_enemy.id = id
-		id +=1
-		yield(get_tree().create_timer(i[1]),"timeout")
+		
+		var loops
+		if i.size() >= 4: loops= i[3]
+		else: loops = 1
+		
+		for n in range(0,loops,1):
+			print(n)
+			var new_enemy = load("res://Scenes/Enemies/" + i[0] + ".tscn").instance()
+			new_enemy.connect("base_damage", self, "on_base_damage")
+			new_enemy.connect("enemy_deleted", self, "on_enemy_deleted")
+			new_enemy.connect("award_money", self, "on_award_money")
+			if i[0] == "TieredEnemy":
+				new_enemy.setup(i[1])
+			map_node.get_node("Path").add_child(new_enemy, true)
+			new_enemy.id = id
+			
+			yield(get_tree().create_timer(i[2]),"timeout")
+			id +=1
+
 
 func wave_finished():
 	print("Congratz on beating wave ",current_wave)
-	get_node("UI").update_pause_button()
-	
+	if Engine.get_time_scale() == 2.0:
+		start_next_wave()
+	else:
+		get_node("UI").update_pause_button()
+
 #=====================================
 #			Building Functions
 #=====================================
@@ -133,16 +153,15 @@ func on_base_damage(damage):
 	else:
 		get_node("UI").update_health_bar(base_health)
 
-func on_enemy_deleted(type_of_deletion, base_enemy_equivalent,unit_name , id):
-	print(type_of_deletion," ", base_enemy_equivalent, " ",unit_name," ", id)
-	if type_of_deletion == "escaped":
-		enemies_in_wave -= 1
-	if type_of_deletion == "killed":
-		base_money += 1
-		get_node("UI").update_money_bar(base_money)
-		if base_enemy_equivalent == 1:
-			enemies_in_wave -=1
+func on_enemy_deleted(type_of_deletion,unit_name , id):
+	print(type_of_deletion," ", " ",unit_name," ", id)
+	enemies_in_wave -= 1
+
 
 	if enemies_in_wave == 0:
 		yield(get_tree().create_timer(1.2),"timeout") 
 		wave_finished()
+
+func on_award_money(amount):
+	base_money += amount
+	get_node("UI").update_money_bar(base_money)
