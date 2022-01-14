@@ -39,7 +39,6 @@ func _on_PausePlay_pressed():
 		get_parent().cancel_build_mode()
 	if get_node("HUD/GameControls/PausePlay").pressed == false:
 		if get_parent().enemies_in_wave == 0:
-			get_parent().current_wave +=1
 			get_parent().start_next_wave()
 #			get_node("HUD/GameControls/PausePlay").disabled = true
 

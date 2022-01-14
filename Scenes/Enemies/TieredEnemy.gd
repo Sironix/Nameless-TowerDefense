@@ -1,7 +1,7 @@
 extends PathFollow2D
 
 signal base_damage(damage)
-signal enemy_deleted(type_of_deletion, base_enemy_equivalent)
+signal enemy_deleted(type_of_deletion)
 signal award_money(amount)
 
 
@@ -17,7 +17,6 @@ var money
 var color
 var spawn 
 
-var base_enemy_equivalent = 0
 var id
 var alive = true
 
@@ -44,7 +43,7 @@ func update_values():
 func _physics_process(delta):
 	if unit_offset == 1.0:
 		emit_signal("base_damage",base_damage)
-		emit_signal("enemy_deleted", "escaped", base_enemy_equivalent,unit_name, id)
+		emit_signal("enemy_deleted", "escaped",unit_name, id)
 		queue_free()
 	move(delta)
 
@@ -73,12 +72,12 @@ func impact():
 
 func on_destroy():
 	alive = false
-	emit_signal("enemy_deleted","killed",base_enemy_equivalent, unit_name, id)
 	if current_tier + hp - 1 > 0:
 		current_tier = current_tier + hp - 1
 		update_values()
 		alive = true
 	else:
+		emit_signal("enemy_deleted","killed", unit_name, id)
 		get_node("KinematicBody2D").queue_free()
 		yield(get_tree().create_timer(0.15),"timeout")
 		self.queue_free()

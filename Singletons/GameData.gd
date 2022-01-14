@@ -51,36 +51,9 @@ var tower_data={
 	
 	
 }
-
+# [NameOfEnemy,Tier of enemy, time between next enemy, amount of enemies]
 var wave_data = {
-	1:[["TieredEnemy",10,1],["TieredEnemy",10,2],["TieredEnemy",10,3],],
-	2:[["TieredEnemy",10,1],["TieredEnemy",10,2],["TieredEnemy",10,3],],
-	3:[["TieredEnemy",10,1],["TieredEnemy",10,2],["TieredEnemy",10,3],],
+	1:[["TieredEnemy",1,3,2],["TieredEnemy",2,3],["TieredEnemy",3,3],],
 	
-	
-	10 : [
-		["BlueTank", 1],["BlueTank", 1],["BlueTank", 1],["BlueTank", 1],["BlueTank", 1],
-		["BlueTank", 1],["BlueTank", 1],["BlueTank", 1],["BlueTank", 1],["BlueTank", 1],
-		["BlueTank", 1],["BlueTank", 1],["BlueTank", 1],["BlueTank", 1],["BlueTank", 1],
-	]
-	,
-	12 : [
-		["BlueTank", 0.5],["BlueTank", 0.4],["BlueTank", 0.3],["BlueTank", 0.2],["BlueTank", 5],
-		["RedTank", 1],["RedTank", 0.5],["RedTank", 4],["RedTank", 0.3],["RedTank", 0.3],["RedTank", 0.3]
-		]
-	,
-	13 : [
-		["BlueTank", 0.1],["BlueTank", 0.1],["BlueTank", 0.1],["BlueTank", 0.1],["BlueTank", 0.1],
-		["BlueTank", 0.1],["BlueTank", 0.1],["BlueTank", 0.1],["BlueTank", 0.1],["BlueTank", 0.1],
-		["BlueTank", 0.1],["BlueTank", 0.1],["RedTank", 0.1],["BlueTank", 3],["RedTank", 0.1],
-		["BlueTank", 1],["RedTank", 0.1],["BlueTank", 1],["RedTank", 0.1],["BlueTank", 0.1],
-		["BlueTank", 1],["RedTank", 0.1],["RedTank", 1],["RedTank", 0.1],["RedTank", 0.1],
-	]
-	,
-	14 : [
-		["BlueTank", 1],["RedTank", 2],["RedTank", 0.1],["RedTank", 5],["GreenTank", 2]
-		]
-	,
-	
-	
+	2:[["TieredEnemy",3,1],["TieredEnemy",2,0.1],["TieredEnemy",2,0.1],["TieredEnemy",2,0.1,4],],
 }
