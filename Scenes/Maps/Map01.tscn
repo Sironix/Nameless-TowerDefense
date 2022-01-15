@@ -155,3 +155,5 @@ __meta__ = {
 curve = SubResource( 3 )
 
 [node name="Turrets" type="Node" parent="."]
+
+[node name="Projectiles" type="Node" parent="."]
