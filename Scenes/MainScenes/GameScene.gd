@@ -18,7 +18,7 @@ var base_money = 300
 
 func _ready():
 	map_node = get_node("Map01") ## turn this into the selected map.
-	GameData.GameScene_Path = self
+	GameData.GameScene_Path = map_node
 	
 	for i in get_tree().get_nodes_in_group("build_buttons"):
 		i.connect("pressed", self, "initiate_build_mode",[i.get_name()])
@@ -131,10 +131,7 @@ func verify_and_build():
 	if build_valid:
 		if base_money >= GameData.tower_data[build_type]["price"]:
 			var new_tower = load("res://Scenes/Towers/" + build_type + ".tscn").instance()
-			new_tower.position = build_location
-			new_tower.built = true
-			new_tower.type = build_type
-			new_tower.category = GameData.tower_data[build_type]["category"]
+			new_tower.setup(build_type,build_location)
 			map_node.get_node("Turrets").add_child(new_tower, true)
 			map_node.get_node("TowerExclusion").set_cellv(build_tile, 5)
 			new_tower._ready()

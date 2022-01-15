@@ -23,7 +23,7 @@ var enemy_data={
 	},
 		3 : {
 		"name"   :	"YellowTank",
-		"health" :	70,
+		"health" :	69,
 		"damage" :	25,
 		"speed"  :	15,
 		"scale"  :	1.5,
@@ -46,7 +46,10 @@ var tower_data={
 		"rate"   : 1,
 		"range"  : 2.0,
 		"category" : "projectile",
-		"price" : 200
+		"price" : 200,
+		"shotspeed" : 400,
+		"pierce" : 2,
+		"projectile": "ProjectileMissile",
 	}
 	
 	

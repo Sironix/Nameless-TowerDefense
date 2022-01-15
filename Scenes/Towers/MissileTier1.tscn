@@ -3,17 +3,13 @@
 [ext_resource path="res://Assets/Towers/towerDefense_tile181.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Towers/towerDefense_tile228.png" type="Texture" id=2]
 [ext_resource path="res://Assets/Towers/towerDefense_tile251.png" type="Texture" id=3]
-
-[sub_resource type="GDScript" id=1]
-script/source = "extends \"res://Scenes/Towers/Turrets.gd\"
-
-"
+[ext_resource path="res://Scenes/Towers/MissileTier1.gd" type="Script" id=4]
 
 [sub_resource type="CircleShape2D" id=2]
 radius = 60.0
 
 [node name="MissileTier1" type="Node2D"]
-script = SubResource( 1 )
+script = ExtResource( 4 )
 
 [node name="Base" type="Sprite" parent="."]
 position = Vector2( 32, 32 )
@@ -27,6 +23,9 @@ texture = ExtResource( 2 )
 texture = ExtResource( 3 )
 offset = Vector2( 5, -10 )
 
+[node name="Muzzle" type="Position2D" parent="Turret/Missile1"]
+position = Vector2( 20, -10 )
+
 [node name="Missile2" type="Sprite" parent="Turret"]
 texture = ExtResource( 3 )
 offset = Vector2( 5, 10 )
@@ -38,5 +37,6 @@ position = Vector2( 32, 32 )
 scale = Vector2( 1e-05, 1e-05 )
 shape = SubResource( 2 )
 
+[connection signal="ready" from="Turret/Missile1/Muzzle" to="." method="_on_Muzzle_ready"]
 [connection signal="body_entered" from="Range" to="." method="_on_Range_body_entered"]
 [connection signal="body_exited" from="Range" to="." method="_on_Range_body_exited"]
