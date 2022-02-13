@@ -32,6 +32,19 @@ func setup(build_type,location):
 		shotspeed = GameData.tower_data[type]["shotspeed"]
 		pierce = GameData.tower_data[type]["pierce"]
 
+
+func setup(build_type,location):
+	position = location
+	built = true
+	type = build_type
+	category = GameData.tower_data[type]["category"]
+	self_range = GameData.tower_data[type]["range"]
+	damage = GameData.tower_data[type]["damage"]
+	rate = GameData.tower_data[type]["rate"]
+	if category != "instant":
+		projectile = GameData.tower_data[type]["projectile"]
+		shotspeed = GameData.tower_data[type]["shotspeed"]
+		pierce = GameData.tower_data[type]["pierce"]
 func _ready():
 	if built:
 		self.get_node("Range/CollisionShape2D").scale = Vector2(	(self_range + 0.5), (self_range + 0.5) )
@@ -67,7 +80,9 @@ func fire():
 	elif category == "projectile":
 		fire_projectile()
 	
+
 	yield(get_tree().create_timer(rate_of_fire), "timeout")
+
 	ready = true
 
 func fire_instant():

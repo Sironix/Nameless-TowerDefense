@@ -32,6 +32,7 @@ func setup(tier):
 func update_values():
 	unit_name 	= GameData.enemy_data[current_tier]["name"]
 	hp  		= GameData.enemy_data[current_tier]["health"]
+
 	base_damage = GameData.enemy_data[current_tier]["damage"]
 	speed 		= GameData.enemy_data[current_tier]["speed"]
 	base_scale 	= GameData.enemy_data[current_tier]["scale"]
@@ -106,3 +107,4 @@ func spawn_children():
 	new_children.connect("enemy_deleted", GameData.GameScene_Path, "on_enemy_deleted")
 	new_children.set_unit_offset(get_unit_offset())
 	new_children.id = id
+

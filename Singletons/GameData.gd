@@ -5,6 +5,7 @@ var GameScene_Path
 var enemy_data={
 	1 : {
 		"name"   :	"BlueTank",
+
 		"health" :	1,
 		"damage" :	1,
 		"speed"  :	50,
@@ -67,6 +68,7 @@ var tower_data={
 		"shotspeed" : 400,
 		"pierce" : 2,
 		"projectile": "ProjectileLaser",
+
 	}
 	
 	

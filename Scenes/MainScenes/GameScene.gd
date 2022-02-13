@@ -29,6 +29,7 @@ var wave_state = "idle"
 
 func _ready():
 	map_node = get_node("Map") ## turn this into the selected map.
+
 	GameData.GameScene_Path = map_node
 	
 	for i in get_tree().get_nodes_in_group("build_buttons"):
@@ -87,6 +88,7 @@ func spawn_enemies(wave_data):
 		else: loops = 1
 		
 		for n in range(0,loops,1):
+    
 			var new_enemy = load("res://Scenes/Enemies/" + i[0] + ".tscn").instance()
 			new_enemy.connect("base_damage", self, "on_base_damage")
 			new_enemy.connect("enemy_deleted", self, "on_enemy_deleted")
@@ -99,6 +101,7 @@ func spawn_enemies(wave_data):
 			yield(get_tree().create_timer(i[2]),"timeout")
 			id +=1
 		wave_state ="idle"
+
 
 
 func wave_finished():
@@ -238,6 +241,7 @@ func on_enemy_deleted(type_of_deletion,unit_name , id):
 
 
 	if enemies_in_wave == 0 and wave_state == "idle":
+
 		yield(get_tree().create_timer(1.2),"timeout") 
 		wave_finished()
 
