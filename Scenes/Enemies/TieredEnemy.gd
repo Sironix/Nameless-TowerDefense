@@ -31,7 +31,8 @@ func setup(tier):
 
 func update_values():
 	unit_name 	= GameData.enemy_data[current_tier]["name"]
-	hp 			= GameData.enemy_data[current_tier]["health"]
+	hp  		= GameData.enemy_data[current_tier]["health"]
+
 	base_damage = GameData.enemy_data[current_tier]["damage"]
 	speed 		= GameData.enemy_data[current_tier]["speed"]
 	base_scale 	= GameData.enemy_data[current_tier]["scale"]
@@ -52,7 +53,6 @@ func move(delta):
 
 func on_hit(damage):
 	impact()
-	emit_signal("award_money",damage)
 	hp -= damage
 	if hp <= 0:
 		if alive:
@@ -72,15 +72,33 @@ func impact():
 
 func on_destroy():
 	alive = false
-	if current_tier + hp - 1 > 0:
-		current_tier = current_tier + hp - 1
-		update_values()
-		alive = true
-	else:
-		emit_signal("enemy_deleted","killed", unit_name, id)
-		get_node("KinematicBody2D").queue_free()
-		yield(get_tree().create_timer(0.15),"timeout")
-		self.queue_free()
+	var tier_when_destroyed = current_tier
+	if hp == 0 and current_tier > 0:
+		current_tier = current_tier - 1
+		emit_signal("award_money",money)
+		if current_tier >= 1:
+			update_values()
+			alive = true
+	elif hp < 0 and current_tier > 0:
+		var total_money_given = 0
+		current_tier += hp  #hp would be negative here, that's why we add it to tier
+		
+		for i in range(current_tier,tier_when_destroyed+1):
+			if i >0:
+				total_money_given += GameData.enemy_data[i]["money"]
+		emit_signal("award_money",total_money_given)
+		if current_tier > 0:
+			update_values()
+			alive = true
+	if current_tier == 0:
+		destroy_self()
+
+func destroy_self():
+	emit_signal("enemy_deleted","killed", unit_name, id)
+	get_node("KinematicBody2D").queue_free()
+	yield(get_tree().create_timer(0.15),"timeout")
+	self.queue_free()
+
 
 func spawn_children():
 	var new_children = load('res://Scenes/Enemies/' + spawn + '.tscn').instance()
@@ -89,16 +107,4 @@ func spawn_children():
 	new_children.connect("enemy_deleted", GameData.GameScene_Path, "on_enemy_deleted")
 	new_children.set_unit_offset(get_unit_offset())
 	new_children.id = id
-
-#func beta_spawn_test():
-#	var tier = the original name/value of the enemy
-#	var health = health of the enemy
-#	var money = the players money. 
-#	if tier > 1:
-#		if health <= 0:
-# if enemy got hit for more than needed, you get the money corresponded
-# and you spawn the corresponded enemy instead of the original one.
-#			money = money - health 
-#			if tier -1 +health >= 1:
-#				spawn(tier -1 +health)
 

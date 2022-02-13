@@ -6,7 +6,6 @@ func set_tower_preview(tower_type, mouse_poition):
 	drag_tower.set_name("DragTower")
 	drag_tower.modulate = Color("ad54ff3c")
 	
-	
 	var range_texture = Sprite.new()
 	range_texture.position = Vector2(32,32)
 	var scaling =((GameData.tower_data[tower_type]["range"] *2) +1) * 64 / 640.0
@@ -14,8 +13,6 @@ func set_tower_preview(tower_type, mouse_poition):
 	var texture = load("res://Assets/UI/range_overlay.png") 
 	range_texture.texture = texture
 	range_texture.modulate = Color('ad54ff3c')
-	
-	
 	
 	var control = Control.new()
 	control.add_child(drag_tower, true)
@@ -38,6 +35,7 @@ func _on_PausePlay_pressed():
 	if get_parent().build_mode: ## Cancel build mode when clicking this button
 		get_parent().cancel_build_mode()
 	if get_node("HUD/GameControls/PausePlay").pressed == false:
+		get_parent().enemies_in_wave = get_parent().map_node.get_node("Path").get_child_count()
 		if get_parent().enemies_in_wave == 0:
 			get_parent().start_next_wave()
 #			get_node("HUD/GameControls/PausePlay").disabled = true
@@ -65,3 +63,8 @@ func update_health_bar(base_health):
 
 func update_money_bar(base_money):
 	get_node("HUD/InfoBar/HBox/Money").text = str(base_money)
+
+#================================
+#	Tower's upgrade menu
+#================================
+
