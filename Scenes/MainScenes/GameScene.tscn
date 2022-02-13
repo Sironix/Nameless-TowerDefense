@@ -1,7 +1,7 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://Scenes/Maps/Map01.tscn" type="PackedScene" id=1]
-[ext_resource path="res://Assets/Towers/towerDefense_tile251.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Towers/turret head.png" type="Texture" id=2]
 [ext_resource path="res://Scenes/MainScenes/UI.gd" type="Script" id=3]
 [ext_resource path="res://Assets/Towers/towerDefense_tile249.png" type="Texture" id=4]
 [ext_resource path="res://Assets/UI/Buttons/blue_button12.png" type="Texture" id=5]
@@ -10,11 +10,23 @@
 [ext_resource path="res://Assets/Icons/right.png" type="Texture" id=8]
 [ext_resource path="res://Assets/Icons/pause.png" type="Texture" id=9]
 [ext_resource path="res://Assets/Resources/Fonts/kfn_40.tres" type="DynamicFont" id=10]
+[ext_resource path="res://Assets/Resources/Fonts/kfn_20.tres" type="DynamicFont" id=11]
+[ext_resource path="res://Assets/Resources/Fonts/kfn_15.tres" type="DynamicFont" id=12]
+[ext_resource path="res://Assets/Resources/Fonts/kfn_30.tres" type="DynamicFont" id=13]
+[ext_resource path="res://Assets/UI/Buttons/blue_button03.png" type="Texture" id=14]
+[ext_resource path="res://Assets/UI/Buttons/blue_button00.png" type="Texture" id=15]
+[ext_resource path="res://Assets/Fonts/Kenney Future Narrow.ttf" type="DynamicFontData" id=16]
+
+[sub_resource type="DynamicFont" id=1]
+size = 40
+outline_size = 2
+outline_color = Color( 0, 0, 0, 0.196078 )
+font_data = ExtResource( 16 )
 
 [node name="GameScene" type="Node2D"]
 script = ExtResource( 6 )
 
-[node name="Map01" parent="." instance=ExtResource( 1 )]
+[node name="Map" parent="." instance=ExtResource( 1 )]
 
 [node name="UI" type="CanvasLayer" parent="."]
 script = ExtResource( 3 )
@@ -34,6 +46,7 @@ margin_left = -100.0
 margin_top = 80.0
 margin_bottom = 480.0
 rect_min_size = Vector2( 100, 400 )
+mouse_filter = 2
 custom_constants/separation = 10
 __meta__ = {
 "_edit_use_anchors_": false
@@ -62,7 +75,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Missile" type="TextureButton" parent="UI/HUD/BuildBar" groups=["build_buttons"]]
+[node name="Laser" type="TextureButton" parent="UI/HUD/BuildBar" groups=["build_buttons"]]
 margin_left = 10.0
 margin_top = 90.0
 margin_right = 90.0
@@ -73,12 +86,11 @@ size_flags_vertical = 4
 texture_normal = ExtResource( 5 )
 expand = true
 
-[node name="Icon" type="TextureRect" parent="UI/HUD/BuildBar/Missile"]
+[node name="Icon" type="TextureRect" parent="UI/HUD/BuildBar/Laser"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_left = 10.0
 margin_top = 10.0
-margin_right = -10.0
+margin_right = -20.0
 margin_bottom = -10.0
 texture = ExtResource( 2 )
 expand = true
@@ -136,6 +148,7 @@ __meta__ = {
 [node name="HBox" type="HBoxContainer" parent="UI/HUD/InfoBar"]
 anchor_right = 1.0
 anchor_bottom = 1.0
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -165,6 +178,7 @@ margin_left = 248.0
 margin_right = 308.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 60, 60 )
+mouse_filter = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
@@ -174,6 +188,7 @@ margin_left = 312.0
 margin_right = 372.0
 margin_bottom = 60.0
 rect_min_size = Vector2( 60, 60 )
+mouse_filter = 2
 expand = true
 
 [node name="Health" type="Label" parent="UI/HUD/InfoBar/HBox"]
@@ -186,5 +201,514 @@ text = "100"
 align = 1
 valign = 1
 
+[node name="Upgrade Menu" type="Control" parent="UI/HUD"]
+visible = false
+margin_left = 7.0
+margin_top = 64.0
+margin_right = 365.0
+margin_bottom = 633.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="BG" type="ColorRect" parent="UI/HUD/Upgrade Menu"]
+margin_right = 358.0
+margin_bottom = 569.0
+color = Color( 0.137255, 0.8, 0.831373, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/HUD/Upgrade Menu"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 5.0
+margin_right = -10.0
+margin_bottom = -10.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Name Container" type="Control" parent="UI/HUD/Upgrade Menu/VBoxContainer"]
+margin_right = 338.0
+margin_bottom = 45.0
+rect_min_size = Vector2( 0, 45 )
+
+[node name="ColorRect" type="ColorRect" parent="UI/HUD/Upgrade Menu/VBoxContainer/Name Container"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.219608, 0.458824, 0.870588, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Tower Name Value" type="Label" parent="UI/HUD/Upgrade Menu/VBoxContainer/Name Container"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 10 )
+text = "Tower Name"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Spacer5" type="Control" parent="UI/HUD/Upgrade Menu/VBoxContainer"]
+margin_top = 49.0
+margin_right = 338.0
+margin_bottom = 54.0
+rect_min_size = Vector2( 0, 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Stat Spacer" type="Control" parent="UI/HUD/Upgrade Menu/VBoxContainer"]
+margin_top = 58.0
+margin_right = 338.0
+margin_bottom = 148.0
+rect_min_size = Vector2( 0, 90 )
+
+[node name="ColorRect" type="ColorRect" parent="UI/HUD/Upgrade Menu/VBoxContainer/Stat Spacer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.568627, 0.458824, 0.192157, 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBox Stats" type="VBoxContainer" parent="UI/HUD/Upgrade Menu/VBoxContainer/Stat Spacer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 5.0
+margin_right = -10.0
+margin_bottom = -5.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBox Stat 1" type="HBoxContainer" parent="UI/HUD/Upgrade Menu/VBoxContainer/Stat Spacer/VBox Stats"]
+margin_right = 318.0
+margin_bottom = 23.0
+
+[node name="Container" type="Control" parent="UI/HUD/Upgrade Menu/VBoxContainer/Stat Spacer/VBox Stats/HBox Stat 1"]
+margin_right = 175.0
+margin_bottom = 23.0
+rect_min_size = Vector2( 175, 23 )
+
+[node name="Stat 1 Name" type="Label" parent="UI/HUD/Upgrade Menu/VBoxContainer/Stat Spacer/VBox Stats/HBox Stat 1/Container"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 11 )
+text = "Stat 1"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Container2" type="Control" parent="UI/HUD/Upgrade Menu/VBoxContainer/Stat Spacer/VBox Stats/HBox Stat 1"]
+margin_left = 179.0
+margin_right = 318.0
+margin_bottom = 23.0
+size_flags_horizontal = 3
+
+[node name="Stat 1 Value" type="Label" parent="UI/HUD/Upgrade Menu/VBoxContainer/Stat Spacer/VBox Stats/HBox Stat 1/Container2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 11 )
+text = "0.5"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="HBox Stat 2" type="HBoxContainer" parent="UI/HUD/Upgrade Menu/VBoxContainer/Stat Spacer/VBox Stats"]
+margin_top = 27.0
+margin_right = 318.0
+margin_bottom = 50.0
+
+[node name="Container" type="Control" parent="UI/HUD/Upgrade Menu/VBoxContainer/Stat Spacer/VBox Stats/HBox Stat 2"]
+margin_right = 175.0
+margin_bottom = 23.0
+rect_min_size = Vector2( 175, 23 )
+
+[node name="Stat 2 Name" type="Label" parent="UI/HUD/Upgrade Menu/VBoxContainer/Stat Spacer/VBox Stats/HBox Stat 2/Container"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 11 )
+text = "Stat 2"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Container2" type="Control" parent="UI/HUD/Upgrade Menu/VBoxContainer/Stat Spacer/VBox Stats/HBox Stat 2"]
+margin_left = 179.0
+margin_right = 318.0
+margin_bottom = 23.0
+size_flags_horizontal = 3
+
+[node name="Stat 2 Value" type="Label" parent="UI/HUD/Upgrade Menu/VBoxContainer/Stat Spacer/VBox Stats/HBox Stat 2/Container2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 11 )
+text = "0.5"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="HBox Stat 3" type="HBoxContainer" parent="UI/HUD/Upgrade Menu/VBoxContainer/Stat Spacer/VBox Stats"]
+margin_top = 54.0
+margin_right = 318.0
+margin_bottom = 77.0
+
+[node name="Container" type="Control" parent="UI/HUD/Upgrade Menu/VBoxContainer/Stat Spacer/VBox Stats/HBox Stat 3"]
+margin_right = 175.0
+margin_bottom = 23.0
+rect_min_size = Vector2( 175, 23 )
+
+[node name="Stat 3 Name" type="Label" parent="UI/HUD/Upgrade Menu/VBoxContainer/Stat Spacer/VBox Stats/HBox Stat 3/Container"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 11 )
+text = "Stat 3"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Container2" type="Control" parent="UI/HUD/Upgrade Menu/VBoxContainer/Stat Spacer/VBox Stats/HBox Stat 3"]
+margin_left = 179.0
+margin_right = 318.0
+margin_bottom = 23.0
+size_flags_horizontal = 3
+
+[node name="Stat 3 Value" type="Label" parent="UI/HUD/Upgrade Menu/VBoxContainer/Stat Spacer/VBox Stats/HBox Stat 3/Container2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_fonts/font = ExtResource( 11 )
+text = "0.5"
+align = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Spacer" type="Control" parent="UI/HUD/Upgrade Menu/VBoxContainer"]
+margin_top = 152.0
+margin_right = 338.0
+margin_bottom = 172.0
+rect_min_size = Vector2( 0, 20 )
+
+[node name="Upgrade 1" type="Control" parent="UI/HUD/Upgrade Menu/VBoxContainer"]
+margin_top = 176.0
+margin_right = 338.0
+margin_bottom = 251.0
+rect_min_size = Vector2( 0, 75 )
+
+[node name="Upgrade Button 1" type="TextureButton" parent="UI/HUD/Upgrade Menu/VBoxContainer/Upgrade 1"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture_normal = ExtResource( 15 )
+texture_pressed = ExtResource( 14 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBox Upgrade 1" type="HBoxContainer" parent="UI/HUD/Upgrade Menu/VBoxContainer/Upgrade 1/Upgrade Button 1"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 5.0
+margin_right = -10.0
+margin_bottom = -5.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Upgrade 1 Label" type="Label" parent="UI/HUD/Upgrade Menu/VBoxContainer/Upgrade 1/Upgrade Button 1/HBox Upgrade 1"]
+margin_right = 169.0
+margin_bottom = 65.0
+mouse_filter = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 12 )
+text = "Text for Upgrade 1"
+valign = 1
+
+[node name="Container" type="HBoxContainer" parent="UI/HUD/Upgrade Menu/VBoxContainer/Upgrade 1/Upgrade Button 1/HBox Upgrade 1"]
+margin_left = 173.0
+margin_right = 318.0
+margin_bottom = 65.0
+rect_min_size = Vector2( 100, 0 )
+size_flags_horizontal = 3
+
+[node name="Upgrade 1 $ Sign" type="Label" parent="UI/HUD/Upgrade Menu/VBoxContainer/Upgrade 1/Upgrade Button 1/HBox Upgrade 1/Container"]
+self_modulate = Color( 0.917647, 1, 0, 1 )
+margin_right = 70.0
+margin_bottom = 65.0
+mouse_filter = 1
+size_flags_horizontal = 7
+size_flags_vertical = 7
+custom_fonts/font = ExtResource( 13 )
+text = "$"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Upgrade 1 Cost" type="Label" parent="UI/HUD/Upgrade Menu/VBoxContainer/Upgrade 1/Upgrade Button 1/HBox Upgrade 1/Container"]
+margin_left = 74.0
+margin_right = 145.0
+margin_bottom = 65.0
+mouse_filter = 1
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 13 )
+text = "99"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Spacer2" type="Control" parent="UI/HUD/Upgrade Menu/VBoxContainer"]
+margin_top = 255.0
+margin_right = 338.0
+margin_bottom = 270.0
+rect_min_size = Vector2( 0, 15 )
+
+[node name="Upgrade 2" type="Control" parent="UI/HUD/Upgrade Menu/VBoxContainer"]
+margin_top = 274.0
+margin_right = 338.0
+margin_bottom = 349.0
+rect_min_size = Vector2( 0, 75 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Upgrade Button 2" type="TextureButton" parent="UI/HUD/Upgrade Menu/VBoxContainer/Upgrade 2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture_normal = ExtResource( 15 )
+texture_pressed = ExtResource( 14 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBox Upgrade 2" type="HBoxContainer" parent="UI/HUD/Upgrade Menu/VBoxContainer/Upgrade 2/Upgrade Button 2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 5.0
+margin_right = -10.0
+margin_bottom = -5.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Upgrade 2 Label" type="Label" parent="UI/HUD/Upgrade Menu/VBoxContainer/Upgrade 2/Upgrade Button 2/HBox Upgrade 2"]
+margin_right = 173.0
+margin_bottom = 65.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 12 )
+text = "Text for Upgrade 2"
+valign = 1
+
+[node name="Container" type="HBoxContainer" parent="UI/HUD/Upgrade Menu/VBoxContainer/Upgrade 2/Upgrade Button 2/HBox Upgrade 2"]
+margin_left = 177.0
+margin_right = 318.0
+margin_bottom = 65.0
+rect_min_size = Vector2( 100, 0 )
+size_flags_horizontal = 3
+
+[node name="Upgrade 2 $ Sign" type="Label" parent="UI/HUD/Upgrade Menu/VBoxContainer/Upgrade 2/Upgrade Button 2/HBox Upgrade 2/Container"]
+self_modulate = Color( 0.917647, 1, 0, 1 )
+margin_right = 68.0
+margin_bottom = 65.0
+size_flags_horizontal = 7
+size_flags_vertical = 7
+custom_fonts/font = ExtResource( 13 )
+text = "$"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Upgrade 2 Cost" type="Label" parent="UI/HUD/Upgrade Menu/VBoxContainer/Upgrade 2/Upgrade Button 2/HBox Upgrade 2/Container"]
+margin_left = 72.0
+margin_right = 141.0
+margin_bottom = 65.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 13 )
+text = "99"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Spacer3" type="Control" parent="UI/HUD/Upgrade Menu/VBoxContainer"]
+margin_top = 353.0
+margin_right = 338.0
+margin_bottom = 368.0
+rect_min_size = Vector2( 0, 15 )
+
+[node name="Upgrade 3" type="Control" parent="UI/HUD/Upgrade Menu/VBoxContainer"]
+margin_top = 372.0
+margin_right = 338.0
+margin_bottom = 447.0
+rect_min_size = Vector2( 0, 75 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Upgrade Button 3" type="TextureButton" parent="UI/HUD/Upgrade Menu/VBoxContainer/Upgrade 3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture_normal = ExtResource( 15 )
+texture_pressed = ExtResource( 14 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBox Upgrade 3" type="HBoxContainer" parent="UI/HUD/Upgrade Menu/VBoxContainer/Upgrade 3/Upgrade Button 3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 10.0
+margin_top = 5.0
+margin_right = -10.0
+margin_bottom = -5.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Upgrade 3 Label" type="Label" parent="UI/HUD/Upgrade Menu/VBoxContainer/Upgrade 3/Upgrade Button 3/HBox Upgrade 3"]
+margin_right = 173.0
+margin_bottom = 65.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 12 )
+text = "Text for Upgrade 3"
+valign = 1
+
+[node name="Container" type="HBoxContainer" parent="UI/HUD/Upgrade Menu/VBoxContainer/Upgrade 3/Upgrade Button 3/HBox Upgrade 3"]
+margin_left = 177.0
+margin_right = 318.0
+margin_bottom = 65.0
+rect_min_size = Vector2( 100, 0 )
+size_flags_horizontal = 3
+
+[node name="Upgrade 3 $ Sign" type="Label" parent="UI/HUD/Upgrade Menu/VBoxContainer/Upgrade 3/Upgrade Button 3/HBox Upgrade 3/Container"]
+self_modulate = Color( 0.917647, 1, 0, 1 )
+margin_right = 68.0
+margin_bottom = 65.0
+size_flags_horizontal = 7
+size_flags_vertical = 7
+custom_fonts/font = ExtResource( 13 )
+text = "$"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Upgrade 3 Cost" type="Label" parent="UI/HUD/Upgrade Menu/VBoxContainer/Upgrade 3/Upgrade Button 3/HBox Upgrade 3/Container"]
+margin_left = 72.0
+margin_right = 141.0
+margin_bottom = 65.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_fonts/font = ExtResource( 13 )
+text = "99"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Spacer4" type="Control" parent="UI/HUD/Upgrade Menu/VBoxContainer"]
+margin_top = 451.0
+margin_right = 338.0
+margin_bottom = 475.0
+size_flags_vertical = 3
+
+[node name="Sell Button" type="TextureButton" parent="UI/HUD/Upgrade Menu/VBoxContainer"]
+self_modulate = Color( 0, 1, 0.858824, 1 )
+margin_top = 479.0
+margin_right = 338.0
+margin_bottom = 554.0
+rect_min_size = Vector2( 0, 75 )
+texture_normal = ExtResource( 15 )
+texture_pressed = ExtResource( 14 )
+expand = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/HUD/Upgrade Menu/VBoxContainer/Sell Button"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="UI/HUD/Upgrade Menu/VBoxContainer/Sell Button/HBoxContainer"]
+margin_top = 15.0
+margin_right = 132.0
+margin_bottom = 60.0
+custom_fonts/font = SubResource( 1 )
+text = "  Sell"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="spacer" type="Label" parent="UI/HUD/Upgrade Menu/VBoxContainer/Sell Button/HBoxContainer"]
+margin_left = 136.0
+margin_top = 30.0
+margin_right = 161.0
+margin_bottom = 44.0
+rect_min_size = Vector2( 25, 0 )
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/HUD/Upgrade Menu/VBoxContainer/Sell Button/HBoxContainer"]
+margin_left = 165.0
+margin_right = 328.0
+margin_bottom = 75.0
+size_flags_horizontal = 3
+alignment = 2
+
+[node name="$ sign" type="Label" parent="UI/HUD/Upgrade Menu/VBoxContainer/Sell Button/HBoxContainer/HBoxContainer"]
+self_modulate = Color( 0.917647, 1, 0, 1 )
+margin_left = 70.0
+margin_top = 15.0
+margin_right = 103.0
+margin_bottom = 60.0
+custom_fonts/font = ExtResource( 10 )
+text = "$"
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Sell Value" type="Label" parent="UI/HUD/Upgrade Menu/VBoxContainer/Sell Button/HBoxContainer/HBoxContainer"]
+margin_left = 107.0
+margin_top = 15.0
+margin_right = 163.0
+margin_bottom = 60.0
+custom_fonts/font = ExtResource( 10 )
+text = "99"
+align = 2
+valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [connection signal="pressed" from="UI/HUD/GameControls/PausePlay" to="UI" method="_on_PausePlay_pressed"]
 [connection signal="pressed" from="UI/HUD/GameControls/SpeedUp" to="UI" method="_on_SpeedUp_pressed"]
+[connection signal="pressed" from="UI/HUD/Upgrade Menu/VBoxContainer/Upgrade 1/Upgrade Button 1" to="." method="_on_Upgrade_Button_1_pressed"]
+[connection signal="pressed" from="UI/HUD/Upgrade Menu/VBoxContainer/Upgrade 2/Upgrade Button 2" to="." method="_on_Upgrade_Button_2_pressed"]
+[connection signal="pressed" from="UI/HUD/Upgrade Menu/VBoxContainer/Upgrade 3/Upgrade Button 3" to="." method="_on_Upgrade_Button_3_pressed"]
+[connection signal="pressed" from="UI/HUD/Upgrade Menu/VBoxContainer/Sell Button" to="." method="_on_Sell_Button_pressed"]
